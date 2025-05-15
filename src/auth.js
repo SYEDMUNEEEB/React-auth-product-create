@@ -28,3 +28,11 @@ export const register = async (email, password, username) => {
     console.error("Error registering:", error.message);
   }
 };
+
+export const logout = async () => {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    console.error("Error logging out:", error.message);
+  }
+};

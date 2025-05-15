@@ -10,6 +10,8 @@ import {
   getDocs,
 } from "../firebase";
 import { toast } from "react-toastify"; 
+import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [productName, setProductName] = useState("");
@@ -17,6 +19,9 @@ const Home = () => {
   const [productDescription, setProductDescription] = useState("");
   const [productImage, setProductImage] = useState(null);
   const [products, setProducts] = useState([]);
+const[loading,setLoading]=useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate=useNavigate()
 
   const handleImageUpload = async (image) => {
     if (!image) {
@@ -38,11 +43,11 @@ const Home = () => {
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
-
+setLoading(true);
     try {
       const imageUrl = await handleImageUpload(productImage);
       if (!imageUrl) return;
-
+setLoading(false);
       const productData = {
         name: productName,
         price: productPrice,
@@ -57,12 +62,18 @@ const Home = () => {
       setProductPrice("");
       setProductDescription("");
       setProductImage(null);
+     
 
        toast.success("Product added successfully!");
 
       fetchProducts();
+      navigate("/products")
     } catch (error) {
-      toast.error("Error adding product: ", error);
+    toast.error("Error adding product: " + error.message);
+      console.error("Error adding product:", error);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -85,6 +96,23 @@ const Home = () => {
 
   return (
     <>
+    <div className="header">
+     <div className='navbar'>
+        <div className='logo'>
+          <a className="store">My Store</a>
+        </div>
+        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+     <div className={`mobile-links${menuOpen ? " open" : ""}`}>
+  <a href="/products">All Products</a>
+  <a href="/" className="logout">Logout</a>
+</div>
+      </div>
+
+    </div> 
       <div className="add-product" >
         <form onSubmit={handleAddProduct}>
           <h2 style={{textAlign:"center"}}>Add Product</h2>
@@ -114,30 +142,22 @@ const Home = () => {
             onChange={(e) => setProductImage(e.target.files[0])}
             required
           />
-          <button type="submit">Add Product</button>
+         <button type="submit" disabled={loading}>
+  {loading ? (
+    <>
+      Adding...
+      <span className="spinner"></span>
+    </>
+  ) : productImage ? (
+    "Add Product"
+  ) : (
+    "Upload Image"
+  )}
+</button>
+
         </form>
       </div>
 
-      <div className="products" style={{ padding: "20px" }}>
-        <h2 style={{textAlign:"center"}}>Products</h2>
-       <div className="product-lisst">
-         <ul>
-          {products.map((product) => (
-            <li key={product.id} style={{ marginBottom: "30px" }}>
-                <img
-                src={product.image}
-                alt={product.name}
-              
-             className="product-image" />
-              <p><strong>Name:</strong>   {product.name}</p>
-              <p><strong>Price:</strong> {product.price}</p>
-              <p><strong>Description:</strong> {product.description}</p>
-            
-            </li>
-          ))}
-        </ul>
-       </div>
-      </div>
     </>
   );
 };

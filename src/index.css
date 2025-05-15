@@ -2,6 +2,8 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: #f9f9f9;
+  padding: 0;
+  box-sizing: border-box;
 
 }
 .add-product {
@@ -32,7 +34,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 0;
-    align-items: baseline;
+    align-items: center;
 }
 
 .product-lisst li {
@@ -74,7 +76,7 @@ input {
   border-radius: 8px;
   background: #f9f9f9; 
   color: #333; 
-  font-size: 1rem;
+  font-size: 20px;
 }
 
 input::placeholder {
@@ -118,9 +120,96 @@ a.register:hover {
   text-decoration: underline;
 }
 
+.navbar a {
+    color: black;
+    font-weight: 500;
+}
+.navbar {
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: lightgrey;
+    position: relative;
+}
+.container {
+    display: block;
+    margin-top: 10em;
+}
+.container p {
+    font-size: 20px;
+    color: #000;
+}
 
-/* 
-//Responsive Styles// */
+.mobile-links {
+    display: contents;
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+.nav-links,
+.auth-links {
+  display: flex;
+  align-items: center;
+}
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: #09f;
+  animation: spin 1s ease infinite;
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .hamburger{
+    display: flex;
+  }
+  .nav-links,
+  .auth-links {
+    display: none;
+  }
+  .mobile-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: #fff;
+    width: 100%;
+    z-index: 10;
+    padding: 1rem 0;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .mobile-links.open {
+    display: flex;
+    align-items: center;
+  }
+}
 @media (max-width: 425px) {
     .add-product, .form-container {
         width: 70%;

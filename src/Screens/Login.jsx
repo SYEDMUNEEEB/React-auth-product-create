@@ -13,7 +13,7 @@ function Login() {
     try {
       await login(form.email, form.password);
       toast.success("Login successful!");
-      navigate("/home");
+      navigate("/navbar");
     } catch (err) {
       toast.error(err.message); 
     }
