@@ -21,7 +21,7 @@ const Products = () => {
     <div className="top-header">
          <div className='navbar'>
         <div className='logo'>
-          <a className="store">My Store</a>
+          <a className="store" href="/navbar">My Store</a>
         </div>
         <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span className="bar"></span>
